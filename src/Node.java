@@ -2,26 +2,26 @@ import java.util.ArrayList;
 
 public class Node {
 
-    private String identifier;
-    private ArrayList<String> children;
+	private container identifier;
+    private ArrayList<Node> children;
 
     // Constructor
-    public Node(String identifier) {
+    public Node(container identifier) {
         this.identifier = identifier;
-        children = new ArrayList<String>();
+        children = new ArrayList<Node>();
     }
 
     // Properties
-    public String getIdentifier() {
+    public container getIdentifier() {
         return identifier;
     }
 
-    public ArrayList<String> getChildren() {
+    public ArrayList<Node> getChildren() {
         return children;
     }
 
     // Public interface
-    public void addChild(String identifier) {
+    public void addChild(Node identifier) {
         children.add(identifier);
     }
 }

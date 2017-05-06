@@ -1,7 +1,7 @@
 
 public abstract class container  {
 	String name;
-	int CreationDate,LastModificationDate;
+	String CreationDate,LastModificationDate;
 	
 	
 	public String getName() {
@@ -10,16 +10,16 @@ public abstract class container  {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCreationDate() {
+	public String getCreationDate() {
 		return CreationDate;
 	}
-	public void setCreationDate(int creationDate) {
+	public void setCreationDate(String creationDate) {
 		CreationDate = creationDate;
 	}
-	public int getLastModificationDate() {
+	public String getLastModificationDate() {
 		return LastModificationDate;
 	}
-	public void setLastModificationDate(int lastModificationDate) {
+	public void setLastModificationDate(String lastModificationDate) {
 		LastModificationDate = lastModificationDate;
 	}
 	

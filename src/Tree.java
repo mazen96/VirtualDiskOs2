@@ -1,60 +1,60 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Vector;
 
 public class Tree {
 
-    private final static int ROOT = 0;
-
-    private HashMap<String, Node> nodes;
+    private final static String ROOTPATH = "VFSD:";
+    private Map<String, Node> nodes;
 
     // Constructors
     public Tree() {
+    	String str = new SimpleDateFormat("HH:mm:ss").format(new Date());
+    	container root = new Folder("root", ROOTPATH, str , str );
     	this.nodes = new HashMap<String, Node>();
+    	Node node = new Node(root);
+    	 nodes.put(ROOTPATH, node);
     }
 
 
     // Properties
-    public HashMap<String, Node> getNodes() {
+    public Map<String, Node> getNodes() {
         return nodes;
     }
+ 
+   
 
-    // Public interface
-    public Node addNode(String identifier) {
-        return this.addNode(identifier, null);
-    }
-
-    public Node addNode(String identifier, String parent) {
-        Node node = new Node(identifier);
-        nodes.put(identifier, node);
-
-        if (parent != null) {
-            nodes.get(parent).addChild(identifier);
+    public boolean addNode(String ParentPath,container child) {
+        Node node = new Node(child);
+        Node nodeParent = nodes.get(ParentPath);
+        
+        if(nodeParent != null && nodeParent.getIdentifier() instanceof Folder){
+        	nodes.put(ParentPath+"\\"+child.getName(), node);
+        	nodes.get(ParentPath).addChild(node);
+        	return true;
         }
 
-        return node;
+        return false;
     }
 
-    public void display(String identifier) {
-        this.display(identifier, ROOT);
+    
+    public void display() {
+    	Vector<String> all = new Vector<String>();
+    	for (Entry<String, Node> entry : nodes.entrySet()) {
+    		all.add(entry.getKey());
+    	}
+    	Collections.sort(all);
+    	for(String tmp : all){
+    		System.out.println(tmp);
+    	}
     }
 
-    public void display(String identifier, int depth) {
-        ArrayList<String> children = nodes.get(identifier).getChildren();
-
-        if (depth == ROOT) {
-            System.out.println(nodes.get(identifier).getIdentifier());
-        } else {
-            String tabs = String.format("%0" + depth + "d", 0).replace("0", "    "); // 4 spaces
-            System.out.println(tabs + nodes.get(identifier).getIdentifier());
-        }
-        depth++;
-        for (String child : children) {
-
-            // Recursive call
-            this.display(child, depth);
-        }
-    }
 
 
 }

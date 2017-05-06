@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 public class Disk {
-	Tree tree = new Tree();
+	Tree tree ;
 	Vector<Block> theDisk;
 	Allocation allocate;
 	
