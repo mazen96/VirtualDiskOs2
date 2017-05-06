@@ -2,11 +2,14 @@ import java.util.Vector;
 
 public class Disk {
 	Tree tree ;
-	Vector<Block> theDisk;
+	static Vector<Block> theDisk;
 	Allocation allocate;
 	
-	public Disk(int n){
-		theDisk = new Vector<Block>(n);
+	public Disk(int n,int sz){
+		theDisk = new Vector<Block>();
+		for(int i=0;i<n;i++){
+			theDisk.add(new Block(sz));
+		}
 	}
 	
 	public Allocation getAllocate() {

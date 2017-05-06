@@ -1,6 +1,15 @@
 
 public class Block {
-	int size,used;
+	int size;
+	boolean used;
+	
+	public Block() {
+		this.used = false;
+	}
+	public Block(int sz ) {
+		this.size = sz;
+		this.used = false;
+	}
 
 	public int getSize() {
 		return size;
@@ -10,11 +19,11 @@ public class Block {
 		this.size = size;
 	}
 
-	public int getUsed() {
+	public boolean getUsed() {
 		return used;
 	}
 
-	public void setUsed(int used) {
+	public void setUsed(boolean used) {
 		this.used = used;
 	}
 	
