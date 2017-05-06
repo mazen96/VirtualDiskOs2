@@ -38,11 +38,22 @@ public class Disk {
 		return false;
 	}
 	
-	boolean DeleteFoler(String name , String path){
-		return false;
+	boolean DeleteFolder(String name , String path){
+		Vector<String> all = tree.getDir(path);
+		if(all.size() == 0)return false;
+		for(int i=0;i<all.size();i++){
+			allocate.Delete(theDisk, tree.getContainer(all.get(i)));
+		}
+		for(int i=0;i<all.size();i++){
+			return tree.deleteNode(all.get(i));
+		}
+		return true;
 	}
 	boolean DeleteFile(String path){
-		return false;
+		if(tree.exist(path)){
+			allocate.Delete(theDisk, tree.getContainer(path));
+			return tree.deleteNode(path);
+		}else return false;
 	}
 	
 	

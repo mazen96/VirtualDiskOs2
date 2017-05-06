@@ -28,7 +28,13 @@ public class Tree {
         return nodes;
     }
  
+   public boolean exist(String path){
+	   return(nodes.get(path)!=null);
+   }
    
+   public container getContainer(String path){
+	   return nodes.get(path).getIdentifier();
+   }
 
     public boolean addNode(String ParentPath,container child) {
         Node node = new Node(child);
@@ -42,6 +48,32 @@ public class Tree {
 
         return false;
     }
+    
+    
+    public boolean deleteNode(String Path){
+    	boolean flag = false;
+    	for (Entry<String, Node> entry : nodes.entrySet()) {
+    		if(entry.getKey().indexOf(Path) == 0){
+    			nodes.remove(entry.getKey());
+    			flag = true;
+    		}
+    		//System.out.println(entry.getKey().indexOf(Path) + " " + entry.getKey());
+    	}
+    	return flag;
+    }
+    
+    public Vector<String> getDir(String Path){
+    	
+    	Vector<String> all = new Vector<String>();
+    	for (Entry<String, Node> entry : nodes.entrySet()) {
+    		if(entry.getKey().indexOf(Path) == 0){
+    			all.add(entry.getKey());
+    		}
+    		//System.out.println(entry.getKey().indexOf(Path) + " " + entry.getKey());
+    	}
+    	return all;
+    }
+    
 
     
     public void display() {

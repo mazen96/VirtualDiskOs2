@@ -1,6 +1,26 @@
 
 public class File extends container{
-	int Type ,Location  , Size;
+	int Type ,Location  , Size,startIndex;
+	
+	public File(){
+		super();
+	}
+	
+	public File(int type, int location, int size, int startIndex) {
+		super();
+		Type = type;
+		Location = location;
+		Size = size;
+		this.startIndex = startIndex;
+	}
+
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
 
 	public int getType() {
 		return Type;

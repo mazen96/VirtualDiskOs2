@@ -13,6 +13,8 @@ public class Main {
 		newTree.addNode("VFSD:\\Folder1", folder2 );
 		newTree.addNode("VFSD:\\Folder1\\Folder2", folder3);
 		newTree.display();
+		newTree.deleteNode("VFSD:\\Folder1\\Folder2");
+		
 	}
 
 }
