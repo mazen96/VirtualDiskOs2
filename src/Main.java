@@ -9,37 +9,55 @@ public class Main {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		System.out.println("Welcome to Virtual File system.\n");
 		BufferedReader br = new BufferedReader( new FileReader("input.txt"));
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(br);
+//		@SuppressWarnings("resource")
+//		//Scanner sc = new Scanner(br);
 		
-		int blockSize;
-		while(true)
+		System.out.println("Welcome to Virtual File system.\n");
+		System.out.println("Load old virtual file system press 1\n");
+		System.out.println("Create new virtual file system press \n");
+		System.out.println("Choice :: ");
+		Scanner sc = new Scanner(System.in);
+		int c = sc.nextInt();
+		Disk theDisk = new Disk();
+		if(c == 1)
 		{
-			System.out.print("Please Enter an even value for block size :: ");
-			blockSize = sc.nextInt();
-			if(blockSize % 2 == 0)
+			theDisk.Load();
+		}
+		else if (c == 2)
+		{
+			int blockSize;
+			while(true)
 			{
-				System.out.println();
-				break;
+				System.out.print("Please Enter an even value for block size :: ");
+				blockSize = sc.nextInt();
+				if(blockSize % 2 == 0)
+				{
+					System.out.println();
+					break;
+				}
+				System.out.println("\nERROR! Provided value is odd.");
 			}
-			System.out.println("\nERROR! Provided value is odd.");
+			theDisk = new Disk(blockSize);
+			System.out.println("\nPress 1 for Contiguous Allocation  \n Press 2 for Index Allocation \n");
+			int choice = sc.nextInt();
+			while(choice != 1 && choice != 2){
+				choice = sc.nextInt();
+			}
+			Allocation allocate;
+			if(choice == 1){
+				allocate = new ContiguousAllocation();
+			}else{
+				allocate = new IndexedAllocation();
+			}
+			theDisk.setAllocate(allocate);
+			
 		}
-		
-		Disk theDisk = new Disk(blockSize);
-		System.out.println("\nPress 1 for Contiguous Allocation  \n Press 2 for Index Allocation \n");
-		int choice = sc.nextInt();
-		while(choice != 1 && choice != 2){
-			choice = sc.nextInt();
+		else
+		{
+			
 		}
-		Allocation allocate;
-		if(choice == 1){
-			allocate = new ContiguousAllocation();
-		}else{
-			allocate = new IndexedAllocation();
-		}
-		theDisk.setAllocate(allocate);
+		 
 		
 		@SuppressWarnings("unused")
 		String ignore = sc.nextLine(); // :@@@@
@@ -76,8 +94,11 @@ public class Main {
 			}
 			else if(inputArray[0].equals("Exit"))
 			{
+				theDisk.Save();
 				System.out.println("Terminating Program ...");
 				System.exit(0);
+			}else if(inputArray[0].equals("Load")){
+				theDisk.Load();
 			}
 			else
 			{

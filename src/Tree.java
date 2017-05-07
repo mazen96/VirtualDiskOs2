@@ -1,5 +1,4 @@
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,9 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-public class Tree {
+public class Tree implements java.io.Serializable{
 
-    private final static String ROOTPATH = "VFSD:";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7613774020218207016L;
+	private final static String ROOTPATH = "VFSD:";
     private Map<String, Node> nodes;
 
     // Constructors

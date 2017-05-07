@@ -1,6 +1,10 @@
 import java.util.Vector;
 
 public class IndexBlock extends Block {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6783222261180716937L;
 	Vector<Integer> indexs;
 	public IndexBlock() {
 		super();

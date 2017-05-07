@@ -1,5 +1,9 @@
 
-public class Block {
+public class Block implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3508315545259711417L;
 	int size;
 	boolean used;
 	String nameOfFile;

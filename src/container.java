@@ -1,5 +1,10 @@
 
-public abstract class container  {
+public abstract class container implements java.io.Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3431513269553955004L;
 	String name;
 	String CreationDate,LastModificationDate;
 	
@@ -21,6 +26,11 @@ public abstract class container  {
 	}
 	public void setLastModificationDate(String lastModificationDate) {
 		LastModificationDate = lastModificationDate;
+	}
+	@Override
+	public String toString() {
+		return "container [name=" + name + ", CreationDate=" + CreationDate + ", LastModificationDate="
+				+ LastModificationDate + "]";
 	}
 	
 	

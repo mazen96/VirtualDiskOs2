@@ -1,3 +1,10 @@
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -6,8 +13,12 @@ public class Disk {
 	Tree tree;
 	static Vector<Block> theDisk;
 	public Integer freeBlocks;
-	Allocation allocate; 
-
+	Allocation allocate;
+	
+	public Disk(){
+		
+	}
+	
 	public Disk(int sz) {
 		theDisk = new Vector<Block>();
 		int numOfBlocks = 1000000/sz;
@@ -136,6 +147,55 @@ public class Disk {
 	
 	public void DisplayTreeStructure() { // check
 		tree.display();
+	}
+	
+	public Void Save() {
+		try {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("disk.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(tree);
+	         out.writeObject(theDisk);
+	         out.writeObject(freeBlocks);
+	         if(allocate instanceof ContiguousAllocation){
+	        	 out.writeObject(0);
+	         }else out.writeObject(1);
+	         out.close();
+	         fileOut.close();
+	         System.out.printf("Serialized data is saved in /disk.ser");
+	      }catch(IOException i) {
+	         i.printStackTrace();
+	      }
+		return null;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Void Load(){
+		try {
+	         FileInputStream fileIn = new FileInputStream("disk.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         tree = (Tree) in.readObject();
+	         tree.display();
+	         theDisk = (Vector<Block>) in.readObject();
+	         freeBlocks = (Integer) in.readObject();
+	         Integer a = (Integer) in.readObject();
+	         if(a == 0){
+	        	 allocate = new ContiguousAllocation();
+	         }else {
+	        	 allocate = new IndexedAllocation();
+	         }
+	         in.close();
+	         fileIn.close();
+	      }catch(IOException i) {
+	         i.printStackTrace();
+	         return null;
+	      }catch(ClassNotFoundException c) {
+	         //System.out.println("Employee class not found");
+	         c.printStackTrace();
+	         return null;
+	      }
+		return null;
 	}
 
 }

@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
-public class Node {
+public class Node implements java.io.Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5130377968807472004L;
 	private container identifier;
     private ArrayList<Node> children;
 

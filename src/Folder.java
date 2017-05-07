@@ -1,5 +1,11 @@
 
 public class Folder extends container {
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3883442834336356888L;
 	String Folderpath ;
 	
 	public Folder() {
@@ -22,5 +28,8 @@ public class Folder extends container {
 		Folderpath = folderpath;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString()+"Folder [Folderpath=" + Folderpath + "]";
+	}
 }

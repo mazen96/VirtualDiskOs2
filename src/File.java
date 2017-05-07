@@ -1,5 +1,9 @@
 
 public class File extends container{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6469563631898711653L;
 	private int Size, startIndex;
 	String FilePath;
 	String type;
@@ -47,6 +51,12 @@ public class File extends container{
 	public String getFilePath() {
 		return FilePath;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString()+"File [Size=" + Size + ", startIndex=" + startIndex + ", FilePath=" + FilePath + ", type=" + type + "]";
+	}
+	
 	
 
 }
