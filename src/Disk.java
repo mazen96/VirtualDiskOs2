@@ -82,8 +82,11 @@ public class Disk {
 
 	public boolean DeleteFolder(String name, String path) {
 		Vector<String> all = tree.getDir(path+'\\'+name);
-		if (all.size() == 0)
-			return false;
+		if (all.size() == 0){
+				System.out.println("ERROR! The provided path doesn't exist.");
+				return false;
+		}
+	
 		for (int i = 0; i < all.size(); i++) {
 			 Vector<Integer> tmp =allocate.Delete(theDisk, tree.getContainer(all.get(i)), freeBlocks);
 			 freeBlocks= tmp.get(1);
@@ -99,8 +102,12 @@ public class Disk {
 			Vector<Integer> tmp =allocate.Delete(theDisk,  tree.getContainer(path), freeBlocks);
 			 freeBlocks= tmp.get(1);
 			return tree.deleteNode(path);
-		} else
+		} else{
+			
+			System.out.println("ERROR! The provided path doesn't exist.");
 			return false;
+		}
+			
 	}
 	
 	public void DisplayDiskStatus()
