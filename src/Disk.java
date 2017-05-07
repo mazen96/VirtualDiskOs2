@@ -6,7 +6,7 @@ public class Disk {
 	Tree tree;
 	static Vector<Block> theDisk;
 	public Integer freeBlocks;
-	Allocation allocate;
+	Allocation allocate; 
 
 	public Disk(int sz) {
 		theDisk = new Vector<Block>();
