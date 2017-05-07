@@ -3,7 +3,7 @@ import java.util.Vector;
 public class ContiguousAllocation implements Allocation{
 
 	@Override
-	public Vector<Integer> Save(Vector<Block> theDisk, int size, int freeBlocks) {
+	public Vector<Integer> Save(Vector<Block> theDisk, int size, int freeBlocks,String name) {
 		
 		int numberOfBlocksNeeded = (int) Math.ceil((size*1.0)/ theDisk.get(0).getSize());
 		if(freeBlocks < numberOfBlocksNeeded)
@@ -27,27 +27,37 @@ public class ContiguousAllocation implements Allocation{
 		if(cntNumberOfFree == numberOfBlocksNeeded){
 			for(int i =startIndex;i<theDisk.size() && i<startIndex + numberOfBlocksNeeded;i++){
 				theDisk.get(i).setUsed(true);
+				theDisk.get(i).setNameOfFile(name);
 			}
 		}
 		
 		Vector<Integer> res = new Vector<>();
 		res.addElement(startIndex);
-		res.addElement(freeBlocks);
+		res.addElement(freeBlocks-numberOfBlocksNeeded);
 		return res;
 		
 	}
 
 	@Override
-	public boolean Delete(Vector<Block> theDisk,container file) {
+	public Vector<Integer> Delete(Vector<Block> theDisk,container file,int freeSpace) {
 		if(file instanceof File){
 			file = (File)file;
 			int numberOfBlocksNeeded = (int) Math.ceil((((File) file).getSize()*1.0)/ theDisk.get(0).getSize());
 			for(int i =((File) file).getStartIndex();i<theDisk.size() && i<((File) file).getStartIndex() + numberOfBlocksNeeded;i++){
 				theDisk.get(i).setUsed(false);
+				freeSpace++;
 			}
-			return true;
+			Vector<Integer> res = new Vector<>();
+			res.addElement(1);
+			res.addElement(freeSpace);
+			return res;
 		}
-		return false;
+		Vector<Integer> res = new Vector<>();
+		res.addElement(0);
+		res.addElement(freeSpace);
+		return res;
+		
+		
 	}
 
 }

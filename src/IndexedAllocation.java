@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class IndexedAllocation implements Allocation{
 
 	@Override
-	public Vector<Integer> Save(Vector<Block> theDisk, int size, int freeBlocks) {
+	public Vector<Integer> Save(Vector<Block> theDisk, int size, int freeBlocks,String name) {
 		
 		int numOfBlocks = (int) Math.ceil((size*1.0)/ theDisk.get(0).getSize());
 		if(freeBlocks < numOfBlocks + 1)
@@ -27,6 +27,7 @@ public class IndexedAllocation implements Allocation{
 				{
 					IndexBlock tmp = new IndexBlock();
 					tmp.setUsed(true);
+					tmp.setNameOfFile(name);
 					freeBlocks--;
 					for(int i = 0 ; i < numOfBlocks ; i++)
 					{
@@ -37,6 +38,7 @@ public class IndexedAllocation implements Allocation{
 							if(tmpBlock.getUsed() == false)
 							{
 								tmpBlock.setUsed(true);
+								tmpBlock.setNameOfFile(name);
 								freeBlocks--;
 								tmp.addIndex(rand);
 								break;
@@ -59,7 +61,7 @@ public class IndexedAllocation implements Allocation{
 	}
 
 	@Override
-	public boolean Delete(Vector<Block> theDisk ,container file) {
+	public Vector<Integer> Delete(Vector<Block> theDisk ,container file, int freeSpace) {
 		
 		if(file instanceof File){
 			file = (File)file;
@@ -68,14 +70,22 @@ public class IndexedAllocation implements Allocation{
 			for(int i = 0 ; i < tmp.indexs.size() ; i++)
 			{
 				theDisk.get(tmp.indexs.get(i)).setUsed(false);
+				freeSpace++;
 			}
 			tmp.setUsed(false);
-			return true;
+			freeSpace++;
+			Vector<Integer> res = new Vector<>();
+			res.addElement(1);
+			res.addElement(freeSpace);
+			return res;
 		}
 		else
 		{
-			System.out.println("File Deletion Failed");
-			return false;
+			
+			Vector<Integer> res = new Vector<>();
+			res.addElement(0);
+			res.addElement(freeSpace);
+			return res;
 		}
 		
 		

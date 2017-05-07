@@ -62,13 +62,14 @@ public class Tree {
     
     public boolean deleteNode(String Path){
     	boolean flag = false;
-    	for (Entry<String, Node> entry : nodes.entrySet()) {
-    		if(entry.getKey().indexOf(Path) == 0){
-    			nodes.remove(entry.getKey());
-    			flag = true;
-    		}
-    		//System.out.println(entry.getKey().indexOf(Path) + " " + entry.getKey());
-    	}
+    	 for(Iterator<Map.Entry<String, Node>> it = nodes.entrySet().iterator(); it.hasNext(); ) {
+    	      Map.Entry<String, Node> entry = it.next();
+    	      if(entry.getKey().indexOf(Path) == 0) {
+    	        it.remove();
+    	      }
+    	    }
+    	
+   
     	return flag;
     }
     

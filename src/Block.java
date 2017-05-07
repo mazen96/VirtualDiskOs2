@@ -2,7 +2,15 @@
 public class Block {
 	int size;
 	boolean used;
+	String nameOfFile;
 	
+	
+	public String getNameOfFile() {
+		return nameOfFile;
+	}
+	public void setNameOfFile(String nameOfFile) {
+		this.nameOfFile = nameOfFile;
+	}
 	public Block() {
 		this.used = false;
 	}

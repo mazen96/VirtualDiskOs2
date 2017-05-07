@@ -54,11 +54,11 @@ public class Disk {
 				tmpFile.setType(name.substring(name.indexOf(".") + 1)); //
 				if (tree.addNode(parentPath, tmpFile) == true) {
 					Vector<Integer> res = new Vector<Integer>();
-					res = allocate.Save(theDisk, size, freeBlocks); // errorrrr null pointer exception .. msh el mfrod byst5dm copy constructor wla a xD
+					res = allocate.Save(theDisk, size, freeBlocks,name); 
 					int startidx = res.get(0);
 					freeBlocks = res.get(1);
 					if (startidx != -1) {
-						File tmp = (File) tree.getContainer(parentPath);
+						File tmp = (File) tree.getContainer(parentPath + "\\" + name);
 						tmp.setStartIndex(startidx);
 						tree.setContainer(parentPath + "\\" + name, tmp);
 					} else {
@@ -81,11 +81,12 @@ public class Disk {
 	}
 
 	public boolean DeleteFolder(String name, String path) {
-		Vector<String> all = tree.getDir(path);
+		Vector<String> all = tree.getDir(path+'\\'+name);
 		if (all.size() == 0)
 			return false;
 		for (int i = 0; i < all.size(); i++) {
-			allocate.Delete(theDisk, tree.getContainer(all.get(i)));
+			 Vector<Integer> tmp =allocate.Delete(theDisk, tree.getContainer(all.get(i)), freeBlocks);
+			 freeBlocks= tmp.get(1);
 		}
 		for (int i = 0; i < all.size(); i++) {
 			tree.deleteNode(all.get(i));
@@ -95,7 +96,8 @@ public class Disk {
 
 	public boolean DeleteFile(String path) {
 		if (tree.exist(path)) {
-			allocate.Delete(theDisk, tree.getContainer(path));
+			Vector<Integer> tmp =allocate.Delete(theDisk,  tree.getContainer(path), freeBlocks);
+			 freeBlocks= tmp.get(1);
 			return tree.deleteNode(path);
 		} else
 			return false;
@@ -111,6 +113,14 @@ public class Disk {
 			if(theDisk.get(i).getUsed() == false)
 			{
 				System.out.print(i + " ");
+			}
+		}
+		System.out.println("\nOccupied Slots in the Disk :: -->\n");
+		for(int i = 0 ; i < theDisk.size() ; i++)
+		{
+			if(theDisk.get(i).getUsed() == true)
+			{
+				System.out.print(i + " :: " +theDisk.get(i).getNameOfFile()+"\n");
 			}
 		}
 		System.out.println();
