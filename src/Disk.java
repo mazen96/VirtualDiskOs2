@@ -1,17 +1,23 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 public class Disk {
-	Tree tree ;
+	Tree tree;
 	static Vector<Block> theDisk;
+	public Integer freeBlocks;
 	Allocation allocate;
-	
-	public Disk(int n,int sz){
+
+	public Disk(int sz) {
 		theDisk = new Vector<Block>();
-		for(int i=0;i<n;i++){
+		int numOfBlocks = 1000000/sz;
+		for (int i = 0; i < numOfBlocks; i++) {
 			theDisk.add(new Block(sz));
 		}
+		freeBlocks = numOfBlocks;
+		tree = new Tree();
 	}
-	
+
 	public Allocation getAllocate() {
 		return allocate;
 	}
@@ -21,41 +27,98 @@ public class Disk {
 	}
 
 
-	
-	void DisplayStatus(){
-		
-	}
-	
-	void DisplayTreeStructure(){
-		
-	}
-	
-	boolean CreateFolder(String name ,String Path) {
+	public boolean CreateFolder(String name, String parentPath) {
+
+		if (tree.exist(parentPath)) {
+			if (!tree.exist(parentPath + "\\" + name)) {
+				String currDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+				container tmpFolder = new Folder(name, parentPath, currDate, currDate);
+				tree.addNode(parentPath, tmpFolder);
+				System.out.println("Folder \" " + name + " \" " + "created successfully under path :: " + parentPath);
+				return true;
+			} else {
+				System.out.println("ERROR! The provided path contains a folder with the same name.");
+			}
+		} else {
+			System.out.println("ERROR! The provided path doesn't exist.");
+		}
+
 		return false;
 	}
-	
-	boolean CreateFile(String name ,String Path , int size) {
+
+	public boolean CreateFile(String name, String parentPath, int size) {
+		if (tree.exist(parentPath)) {
+			if (!tree.exist(parentPath + "\\" + name)) {
+				String currDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+				File tmpFile = new File(name, parentPath, currDate, currDate, size);
+				tmpFile.setType(name.substring(name.indexOf(".") + 1)); //
+				if (tree.addNode(parentPath, tmpFile) == true) {
+					Vector<Integer> res = new Vector<Integer>();
+					res = allocate.Save(theDisk, size, freeBlocks); // errorrrr null pointer exception .. msh el mfrod byst5dm copy constructor wla a xD
+					int startidx = res.get(0);
+					freeBlocks = res.get(1);
+					if (startidx != -1) {
+						File tmp = (File) tree.getContainer(parentPath);
+						tmp.setStartIndex(startidx);
+						tree.setContainer(parentPath + "\\" + name, tmp);
+					} else {
+						tree.deleteNode(parentPath + "\\" + name);
+						return false;
+					}
+
+				} else {
+					return false;
+				}
+
+			} else {
+				System.out.println("ERROR! The provided path contains a file with the same name.");
+			}
+		} else {
+			System.out.println("ERROR! The provided path doesn't exist.");
+		}
+
 		return false;
 	}
-	
-	boolean DeleteFolder(String name , String path){
+
+	public boolean DeleteFolder(String name, String path) {
 		Vector<String> all = tree.getDir(path);
-		if(all.size() == 0)return false;
-		for(int i=0;i<all.size();i++){
+		if (all.size() == 0)
+			return false;
+		for (int i = 0; i < all.size(); i++) {
 			allocate.Delete(theDisk, tree.getContainer(all.get(i)));
 		}
-		for(int i=0;i<all.size();i++){
-			return tree.deleteNode(all.get(i));
+		for (int i = 0; i < all.size(); i++) {
+			tree.deleteNode(all.get(i));
 		}
 		return true;
 	}
-	boolean DeleteFile(String path){
-		if(tree.exist(path)){
+
+	public boolean DeleteFile(String path) {
+		if (tree.exist(path)) {
 			allocate.Delete(theDisk, tree.getContainer(path));
 			return tree.deleteNode(path);
-		}else return false;
+		} else
+			return false;
 	}
 	
+	public void DisplayDiskStatus()
+	{
+		System.out.println("Empty Space    :: " + freeBlocks*theDisk.get(0).getSize() + " KB.");
+		System.out.println("Occupied Space :: " + (theDisk.size() - freeBlocks)*theDisk.get(0).getSize() + " KB.");
+		System.out.println("Empty Slots in the Disk :: " + freeBlocks + " -->\n");
+		for(int i = 0 ; i < theDisk.size() ; i++)
+		{
+			if(theDisk.get(i).getUsed() == false)
+			{
+				System.out.print(i + " ");
+			}
+		}
+		System.out.println();
+		
+	}
 	
-	
+	public void DisplayTreeStructure() { // check
+		tree.display();
+	}
+
 }

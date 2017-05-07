@@ -1,17 +1,19 @@
 
 public class File extends container{
-	int Type ,Location  , Size,startIndex;
+	private int Size, startIndex;
+	String FilePath;
+	String type;
 	
 	public File(){
-		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-	public File(int type, int location, int size, int startIndex) {
-		super();
-		Type = type;
-		Location = location;
-		Size = size;
-		this.startIndex = startIndex;
+	public File(String name , String FilePath ,String  CreationDate,String LastModificationDate, int size) {
+		this.setName(name);
+		this.FilePath = FilePath;
+		this.setCreationDate(CreationDate);
+		this.setLastModificationDate(LastModificationDate);
+		this.setSize(size);
 	}
 
 	public int getStartIndex() {
@@ -22,28 +24,28 @@ public class File extends container{
 		this.startIndex = startIndex;
 	}
 
-	public int getType() {
-		return Type;
-	}
-
-	public void setType(int type) {
-		Type = type;
-	}
-
-	public int getLocation() {
-		return Location;
-	}
-
-	public void setLocation(int location) {
-		Location = location;
-	}
-
 	public int getSize() {
 		return Size;
 	}
 
 	public void setSize(int size) {
 		Size = size;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setFilePath(String filePath) {
+		FilePath = filePath;
+	}
+	
+	public String getFilePath() {
+		return FilePath;
 	}
 	
 

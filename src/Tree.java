@@ -35,6 +35,12 @@ public class Tree {
    public container getContainer(String path){
 	   return nodes.get(path).getIdentifier();
    }
+   
+   public void setContainer(String fullPath, container c)
+   {
+	   Node node = new Node(c);
+	   nodes.replace(fullPath, node);
+   }
 
     public boolean addNode(String ParentPath,container child) {
         Node node = new Node(child);
@@ -44,6 +50,10 @@ public class Tree {
         	nodes.put(ParentPath+"\\"+child.getName(), node);
         	nodes.get(ParentPath).addChild(node);
         	return true;
+        }
+        else
+        {
+        	System.out.println("ERROR! The provided path is not valid");
         }
 
         return false;
